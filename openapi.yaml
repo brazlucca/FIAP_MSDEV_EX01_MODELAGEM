@@ -36,29 +36,41 @@ tags:
       description: Find out more
       url: http://swagger.io    
   - name: retailer-inventory
-    description: Everything about Retailer
+    description: Everything about Retailer Inventory
     externalDocs:
       description: Find out more
       url: http://swagger.io
   - name: shipment-order
-    description: Everything about Retailer
+    description: Everything about Shipment Order
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+  - name: warehouse
+    description: Everything about Warehouse
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io       
+  - name: warehouse-inventory
+    description: Everything about Warehouse Inventory
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io      
+  - name: varrier
+    description: Everything about Carrier
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+  - name: product
+    description: Everything about Product
     externalDocs:
       description: Find out more
       url: http://swagger.io  
-      
-      
-  - name: pet
-    description: Everything about your Pets
+  - name: supplier
+    description: Everything about Supplier
     externalDocs:
       description: Find out more
-      url: http://swagger.io
-  - name: store
-    description: Access to Petstore orders
-    externalDocs:
-      description: Find out more about our store
-      url: http://swagger.io
-  - name: user
-    description: Operations about user
+      url: http://swagger.io  
+
 paths:
   /sales:
     post:
@@ -327,6 +339,67 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ShipmentOrder'
+  /warehouse-inventory:
+    post:
+      tags:
+        - warehouse-inventory
+      summary: Create a Warehouse
+      description: Create a Warehouse
+      operationId: createWarehouse
+      requestBody:
+        description: Create a Warehouse
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WarehouseInventory'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/WarehouseInventory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/WarehouseInventory'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WarehouseInventory'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/WarehouseInventory'
+        '405':
+          description: Invalid input
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets  
+  /warehouse-inventory/{warehouseInventoryId}:
+    get:
+      tags:
+        - warehouse-inventory
+      summary: Get Warehouse Inventory
+      description: This can only be done by the logged in user.
+      operationId: getWarehouseInventory
+      parameters:
+        - name: warehouseInventoryId
+          in: path
+          description: name that need to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WarehouseInventory'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/WarehouseInventory'
+  
   
   
   /pet:
