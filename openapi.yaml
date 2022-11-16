@@ -73,7 +73,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SalesData'
+              $ref: '#/components/schemas/CreateSalesData'
         required: true
       responses:
         '200':
@@ -88,29 +88,6 @@ paths:
         - retailvaluechain_auth:
             - write:rtvc
             - read:rtvc
-  /sales/{salesId}:
-    get:
-      tags:
-        - sales
-      summary: Get sale
-      description: This can only be done by the logged in user.
-      operationId: getSale
-      parameters:
-        - name: salesId
-          in: path
-          description: id to get
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SalesData'          
-        '404':
-          description: Not found       
   /retailer:
     post:
       tags:
@@ -123,7 +100,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Retailer'
+              $ref: '#/components/schemas/CreateRetailer'
         required: true
       responses:
         '200':
@@ -157,7 +134,8 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Retailer'
+              $ref: '#/components/schemas/UpdateRetailer'
+        required: true      
       responses:
         '200':
           description: Successful operation
@@ -229,7 +207,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RetailerInventory'
+              $ref: '#/components/schemas/CreateRetailerInventory'
         required: true
       responses:
         '200':
@@ -244,85 +222,6 @@ paths:
         - retailvaluechain_auth:
             - write:rtvc
             - read:rtvc  
-  /retailer-inventory/{retailerInventoryId}:
-    put:
-      tags:
-        - retailer-inventory
-      summary: Update Retailer Inventory
-      description: This can only be done by the logged in user.
-      operationId: updateRetailerInventory
-      parameters:
-        - name: retailerInventoryId
-          in: path
-          description: id to update
-          required: true
-          schema:
-            type: string
-      requestBody:
-        description: Update an existent Retailer inventory
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RetailerInventory'
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RetailerInventory'
-        '400':
-          description: Invalid input
-      security:
-        - retailvaluechain_auth:
-            - write:rtvc
-            - read:rtv    
-    get:
-      tags:
-        - retailer-inventory
-      summary: Get Retailer Inventory
-      description: This can only be done by the logged in user.
-      operationId: getRetailerInventory
-      parameters:
-        - name: retailerInventoryId
-          in: path
-          description: id to get
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RetailerInventory'
-        '404':
-          description: Not Found
-      security:
-        - retailvaluechain_auth:
-            - write:rtvc
-            - read:rtvc   
-    delete:
-      tags:
-        - retailer-inventory
-      summary: Delete Retailer Inventory
-      description: This can only be done by the logged in user.
-      operationId: deleteRetailerInventory
-      parameters:
-        - name: retailerInventoryId
-          in: path
-          description: id to delete
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Successful operation
-      security:
-        - retailvaluechain_auth:
-            - write:rtvc
-            - read:rtv      
   /shipment-order:
     post:
       tags:
@@ -335,7 +234,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ShipmentOrder'
+              $ref: '#/components/schemas/CreateShipmentOrder'
         required: true
       responses:
         '200':
@@ -396,6 +295,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UpdateShipmentOrder'
+        required: true      
       responses:
         '200':
           description: Successful operation
@@ -421,7 +321,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Warehouse'
+              $ref: '#/components/schemas/CreateWarehouse'
         required: true
       responses:
         '200':
@@ -430,9 +330,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Warehouse'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Warehouse'
         '405':
           description: Invalid input
       security:
@@ -458,7 +355,8 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Warehouse'
+              $ref: '#/components/schemas/UpdateWarehouse'
+        required: true      
       responses:
         '200':
           description: Successful operation
@@ -530,7 +428,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/WarehouseInventory'
+              $ref: '#/components/schemas/CreateWarehouseInventory'
         required: true
       responses:
         '200':
@@ -545,85 +443,6 @@ paths:
         - retailvaluechain_auth:
             - write:rtvc
             - read:rtvc  
-  /warehouse-inventory/{warehouseInventoryId}:
-    put:
-      tags:
-        - warehouse-inventory
-      summary: Update Warehouse Inventory
-      description: This can only be done by the logged in user.
-      operationId: updateWarehouseInventory
-      parameters:
-        - name: warehouseInventoryId
-          in: path
-          description: id to update
-          required: true
-          schema:
-            type: string
-      requestBody:
-        description: Update an existent Warehouse Inventory
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/WarehouseInventory'
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/WarehouseInventory'
-        '400':
-          description: Invalid input
-      security:
-        - retailvaluechain_auth:
-            - write:rtvc
-            - read:rtv    
-    get:
-      tags:
-        - warehouse-inventory
-      summary: Get Warehouse Inventory
-      description: This can only be done by the logged in user.
-      operationId: getWarehouseInventory
-      parameters:
-        - name: warehouseInventoryId
-          in: path
-          description: id to get
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/WarehouseInventory'
-        '404':
-          description: Not Found
-      security:
-        - retailvaluechain_auth:
-            - write:rtvc
-            - read:rtvc   
-    delete:
-      tags:
-        - warehouse-inventory
-      summary: Delete Warehouse Inventory
-      description: This can only be done by the logged in user.
-      operationId: deleteWarehouseInventory
-      parameters:
-        - name: warehouseInventoryId
-          in: path
-          description: id to delete
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Successful operation
-      security:
-        - retailvaluechain_auth:
-            - write:rtvc
-            - read:rtv      
   /carrier:
     post:
       tags:
@@ -636,7 +455,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Carrier'
+              $ref: '#/components/schemas/CreateCarrier'
         required: true
       responses:
         '200':
@@ -670,7 +489,8 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Carrier'
+              $ref: '#/components/schemas/UpdateCarrier'
+        required: true      
       responses:
         '200':
           description: Successful operation
@@ -742,7 +562,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Supplier'
+              $ref: '#/components/schemas/CreateSupplier'
         required: true
       responses:
         '200':
@@ -776,7 +596,8 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Supplier'
+              $ref: '#/components/schemas/UpdateSupplier'
+        required: true      
       responses:
         '200':
           description: Successful operation
@@ -848,7 +669,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Product'
+              $ref: '#/components/schemas/CreateProduct'
         required: true
       responses:
         '200':
@@ -882,7 +703,8 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Product'
+              $ref: '#/components/schemas/UpdateProduct'
+        required: true      
       responses:
         '200':
           description: Successful operation
@@ -944,6 +766,57 @@ paths:
             - read:rtv      
 components:
   schemas:
+    CreateAddress:
+      required:
+        - zipcode
+        - country
+        - city
+        - neighborhood
+        - street
+        - number
+      type: object
+      properties:
+        zipcode:
+          type: string
+          example: '123456-78'
+        country:
+          type: string
+          example: Brazil
+        city:
+          type: string
+          example: 'São Paulo'
+        neighborhood:
+          type: string
+          example: 'Jadrins'
+        street:
+          type: string
+          example: 'Avenida Paulista'
+        number:
+          type: integer
+          format: int32
+          example: 1000
+    UpdateAddress:
+      type: object
+      properties:
+        zipcode:
+          type: string
+          example: '123456-78'
+        country:
+          type: string
+          example: Brazil
+        city:
+          type: string
+          example: 'São Paulo'
+        neighborhood:
+          type: string
+          example: 'Jadrins'
+        street:
+          type: string
+          example: 'Avenida Paulista'
+        number:
+          type: integer
+          format: int32
+          example: 1000      
     Address:
       type: object
       properties:
@@ -972,6 +845,20 @@ components:
           example: 1000 
       xml:
         name: address
+    CreateCarrier:
+      required:
+        - description
+      type: object
+      properties:
+        description:
+          type: string
+          example: 'Description'
+    UpdateCarrier:
+      type: object
+      properties:
+        description:
+          type: string
+          example: 'Description'      
     Carrier:
       type: object
       properties:
@@ -982,6 +869,38 @@ components:
         description:
           type: string
           example: 'Description'
+    CreateProduct:
+      required:
+        - supplierId 
+        - description
+        - price
+      type: object
+      properties:
+        supplierId:
+          type: integer
+          format: int64
+          example: 123456  
+        description:
+          type: string
+          example: 'Description'
+        price:
+          type: number
+          format: double
+          example: '10.01'
+    UpdateProduct:
+      type: object
+      properties:
+        supplierId:
+          type: integer
+          format: int64
+          example: 123456  
+        description:
+          type: string
+          example: 'Description'
+        price:
+          type: number
+          format: double
+          example: '10.01'      
     Product:
       type: object
       properties:
@@ -1000,6 +919,25 @@ components:
           type: number
           format: double
           example: '10.01'
+    CreateRetailer:
+      required:
+        - description
+        - address
+      type: object
+      properties:
+        description:
+          type: string
+          example: '123456'
+        address:
+          $ref: '#/components/schemas/CreateAddress'
+    UpdateRetailer:
+      type: object
+      properties:
+        description:
+          type: string
+          example: '123456'
+        address:
+          $ref: '#/components/schemas/UpdateAddress'      
     Retailer:
       type: object
       properties:
@@ -1012,6 +950,25 @@ components:
           example: '123456'
         address:
           $ref: '#/components/schemas/Address' 
+    CreateRetailerInventory:
+      required:
+        - retailerId
+        - productId
+        - quantity
+      type: object
+      properties:
+        retailerId:
+          type: integer
+          format: int64
+          example: 123456
+        productId:
+          type: integer
+          format: int64
+          example: 123456
+        quantity:
+          type: integer
+          format: int32
+          example: 123456      
     RetailerInventory:
       type: object
       properties:
@@ -1030,7 +987,32 @@ components:
         quantity:
           type: integer
           format: int32
-          example: 123456  
+          example: 123456
+    CreateSalesData:
+      required:
+        - clientId
+        - salesPrice
+        - salesDate
+        - items
+      type: object
+      properties:
+        clientId:
+          type: integer
+          format: int64
+          example: 123456
+        salesPrice:
+          type: number
+          format: double
+          example: '10.01'  
+        salesDate:
+          type: string
+          description: RFC3339 Datetime to set
+          format: date-time
+          example: "2022-10-20T12:30:30+00:00"
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateSalesDataItem'      
     SalesData:
       type: object
       properties:
@@ -1055,6 +1037,25 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SalesDataItem'  
+    CreateSalesDataItem:
+      required:
+        - productId
+        - quantity
+        - price
+      type: object
+      properties:
+        productId:
+          type: integer
+          format: int64
+          example: 123456
+        quantity:
+          type: integer
+          format: int32
+          example: 123456
+        price:
+          type: number
+          format: double
+          example: '10.01'        
     SalesDataItem:
       type: object
       properties:
@@ -1073,7 +1074,52 @@ components:
         price:
           type: number
           format: double
-          example: '10.01'   
+          example: '10.01'
+    CreateShipmentOrder:
+      required:
+      - type
+      - carrierId
+      - retailerId
+      - warehouseId
+      - senderAddress
+      - recipientAddress
+      - status
+      - items
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - WAREHOUSE
+            - RETAILER
+          example: WAREHOUSE
+        carrierId:
+          type: integer
+          format: int64
+          example: 123456
+        retailerId:
+          type: integer
+          format: int64
+          example: 123456
+        warehouseId:
+          type: integer
+          format: int64
+          example: 123456
+        senderAddress:
+          $ref: '#/components/schemas/CreateAddress'
+        recipientAddress:
+          $ref: '#/components/schemas/CreateAddress'  
+        status:
+          type: string
+          enum:
+            - PROCESSING
+            - DELIVERED
+            - CANCELED
+          example: PROCESSING
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateShipmentOrderItem'
     ShipmentOrder:
       type: object
       properties:
@@ -1115,6 +1161,8 @@ components:
           items:
             $ref: '#/components/schemas/ShipmentOrderItem'
     UpdateShipmentOrder:
+      required:
+        - status
       type: object
       properties:
         status:
@@ -1124,6 +1172,15 @@ components:
             - DELIVERED
             - CANCELED
           example: PROCESSING
+    CreateShipmentOrderItem:
+      required:
+        - purchaseOrderItemId
+      type: object
+      properties:
+        purchaseOrderItemId:
+          type: integer
+          format: int64
+          example: 123456      
     ShipmentOrderItem:
       type: object
       properties:
@@ -1135,6 +1192,20 @@ components:
           type: integer
           format: int64
           example: 123456
+    CreateSupplier:
+      required:
+        - description
+      type: object
+      properties:
+        description:
+          type: string
+          example: 'description'      
+    UpdateSupplier:
+      type: object
+      properties:
+        description:
+          type: string
+          example: 'description'      
     Supplier:
       type: object
       properties:
@@ -1145,6 +1216,25 @@ components:
         description:
           type: string
           example: 'description'
+    CreateWarehouse:
+      required:
+      - description
+      - address
+      type: object
+      properties:
+        description:
+          type: string
+          example: 'description'
+        address:
+          $ref: '#/components/schemas/CreateAddress'
+    UpdateWarehouse:
+      type: object
+      properties:
+        description:
+          type: string
+          example: 'description'
+        address:
+          $ref: '#/components/schemas/UpdateAddress'      
     Warehouse:
       type: object
       properties:
@@ -1157,6 +1247,25 @@ components:
           example: 'description'
         address:
           $ref: '#/components/schemas/Address'
+    CreateWarehouseInventory:
+      required:
+        - warehouseId
+        - productId
+        - quantity
+      type: object
+      properties:
+        warehouseId:
+          type: integer
+          format: int64
+          example: 123456
+        productId:
+          type: integer
+          format: int64
+          example: 123456
+        quantity:
+          type: integer
+          format: int32
+          example: 123456      
     WarehouseInventory:
       type: object
       properties:
