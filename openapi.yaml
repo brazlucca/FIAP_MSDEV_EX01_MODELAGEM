@@ -1000,32 +1000,6 @@ components:
           type: number
           format: double
           example: '10.01'
-    PurchaseOrder:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 123456
-        retailerId:
-          type: integer
-          format: int64
-          example: 123456
-        address:
-          $ref: '#/components/schemas/Address' 
-        supplierId:
-          type: integer
-          format: int64
-          example: 123456  
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/PurchaseOrderItem'  
-        datetime:
-          type: string
-          description: RFC3339 Datetime to set
-          format: date-time
-          example: "2021-06-20T01:02:03+00:00"
     PurchaseOrderItem:
       type: object
       properties:
