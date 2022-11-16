@@ -16,7 +16,7 @@ servers:
   - url: https://retailvaluechain/api/v1
 tags:
   - name: sales
-    description: Everything about Sales
+    description: Everything about Sale
     externalDocs:
       description: Find out more
       url: http://swagger.io
@@ -65,7 +65,7 @@ paths:
     post:
       tags:
         - sales
-      summary: Create a new sale
+      summary: Create sale
       description: Create a new sale
       operationId: createSale
       requestBody:
@@ -115,7 +115,7 @@ paths:
     post:
       tags:
         - retailer
-      summary: Create a new retailer
+      summary: Create retailer
       description: Create a new retailer
       operationId: createRetailer
       requestBody:
@@ -221,7 +221,7 @@ paths:
     post:
       tags:
         - retailer-inventory
-      summary: Create a new sale
+      summary: Create Retailer Inventory
       description: Create a new sale
       operationId: createRetailerInventory
       requestBody:
@@ -248,7 +248,7 @@ paths:
     put:
       tags:
         - retailer-inventory
-      summary: Update retailer-inventory
+      summary: Update Retailer Inventory
       description: This can only be done by the logged in user.
       operationId: updateRetailerInventory
       parameters:
@@ -280,7 +280,7 @@ paths:
     get:
       tags:
         - retailer-inventory
-      summary: Get Retailer inventory
+      summary: Get Retailer Inventory
       description: This can only be done by the logged in user.
       operationId: getRetailerInventory
       parameters:
@@ -306,7 +306,7 @@ paths:
     delete:
       tags:
         - retailer-inventory
-      summary: Delete retailer inventory
+      summary: Delete Retailer Inventory
       description: This can only be done by the logged in user.
       operationId: deleteRetailerInventory
       parameters:
@@ -327,7 +327,7 @@ paths:
     post:
       tags:
         - shipment-order
-      summary: Create a Shipment Order
+      summary: Create Shipment Order
       description: Create a Create a Shipment Order
       operationId: createShipmentOrder
       requestBody:
@@ -413,7 +413,7 @@ paths:
     post:
       tags:
         - warehouse
-      summary: Create a Warehouse
+      summary: Create Warehouse
       description: Create a Warehouse
       operationId: createWarehouse
       requestBody:
@@ -443,7 +443,7 @@ paths:
     put:
       tags:
         - warehouse
-      summary: Update warehouse
+      summary: Update Warehouse
       description: This can only be done by the logged in user.
       operationId: updateWarehouse
       parameters:
@@ -475,7 +475,7 @@ paths:
     get:
       tags:
         - warehouse
-      summary: Get warehouse
+      summary: Get Warehouse
       description: This can only be done by the logged in user.
       operationId: getWarehouse
       parameters:
@@ -607,7 +607,7 @@ paths:
     delete:
       tags:
         - warehouse-inventory
-      summary: Delete warehouse-inventory
+      summary: Delete Warehouse Inventory
       description: This can only be done by the logged in user.
       operationId: deleteWarehouseInventory
       parameters:
@@ -628,7 +628,7 @@ paths:
     post:
       tags:
         - carrier
-      summary: Create a Carrier
+      summary: Create Carrier
       description: Create a Carrier
       operationId: createCarrier
       requestBody:
@@ -840,7 +840,7 @@ paths:
     post:
       tags:
         - product
-      summary: Create a Product
+      summary: Create Product
       description: Create a Product
       operationId: createProduct
       requestBody:
