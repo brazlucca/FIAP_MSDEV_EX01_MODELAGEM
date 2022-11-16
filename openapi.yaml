@@ -1145,7 +1145,7 @@ components:
         recipientAddress:
           $ref: '#/components/schemas/Address'  
         status:
-          type: integer
+          type: string
           enum:
             - PROCESSING
             - DELIVERED
