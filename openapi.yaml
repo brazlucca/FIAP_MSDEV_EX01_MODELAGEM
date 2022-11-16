@@ -55,7 +55,7 @@ tags:
     externalDocs:
       description: Find out more
       url: http://swagger.io      
-  - name: varrier
+  - name: carrier
     description: Everything about Carrier
     externalDocs:
       description: Find out more
@@ -85,12 +85,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SalesData'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/SalesData'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/SalesData'
         required: true
       responses:
         '200':
@@ -99,15 +93,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SalesData'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/SalesData'
-        '405':
+        '400':
           description: Invalid input
       security:
-        - petstore_auth:
-            - write:pets
-            - read:pets
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtvc
   /sales/{salesId}:
     get:
       tags:
@@ -118,7 +109,7 @@ paths:
       parameters:
         - name: salesId
           in: path
-          description: name that need to be deleted
+          description: id to get
           required: true
           schema:
             type: string
@@ -129,9 +120,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Retailer'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Retailer'
+        '404':
+          description: Not found       
   /retailer:
     post:
       tags:
@@ -145,12 +135,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Retailer'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Retailer'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Retailer'
         required: true
       responses:
         '200':
@@ -159,15 +143,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Retailer'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Retailer'
-        '405':
+        '400':
           description: Invalid input
       security:
-        - petstore_auth:
-            - write:pets
-            - read:pets          
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtvc          
   /retailer/{retailerId}:
     put:
       tags:
@@ -178,7 +159,7 @@ paths:
       parameters:
         - name: retailerId
           in: path
-          description: name that need to be deleted
+          description: id to update
           required: true
           schema:
             type: string
@@ -188,22 +169,19 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Retailer'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Retailer'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Retailer'
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Retailer'          
-            application/xml:
-              schema:
                 $ref: '#/components/schemas/Retailer'
+        '400':
+          description: Invalid input
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtv    
     get:
       tags:
         - retailer
@@ -213,7 +191,7 @@ paths:
       parameters:
         - name: retailerId
           in: path
-          description: name that need to be deleted
+          description: id to get
           required: true
           schema:
             type: string
@@ -223,10 +201,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Retailer'          
-            application/xml:
-              schema:
                 $ref: '#/components/schemas/Retailer'
+        '404':
+          description: Not Found
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtv    
     delete:
       tags:
         - retailer
@@ -236,13 +217,17 @@ paths:
       parameters:
         - name: retailerId
           in: path
-          description: name that need to be deleted
+          description: id to delete
           required: true
           schema:
             type: string
       responses:
         '204':
           description: Successful operation
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtv    
   /retailer-inventory:
     post:
       tags:
@@ -255,13 +240,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SalesData'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/SalesData'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/SalesData'
+              $ref: '#/components/schemas/RetailerInventory'
         required: true
       responses:
         '200':
@@ -269,16 +248,92 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SalesData'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/SalesData'
+                $ref: '#/components/schemas/RetailerInventory'          
         '405':
           description: Invalid input
       security:
-        - petstore_auth:
-            - write:pets
-            - read:pets  
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtvc  
+  /retailer-inventory/{retailerInventoryId}:
+    put:
+      tags:
+        - retailer-inventory
+      summary: Update retailer-inventory
+      description: This can only be done by the logged in user.
+      operationId: updateRetailerInventory
+      parameters:
+        - name: retailerInventoryId
+          in: path
+          description: id to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent Retailer inventory
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RetailerInventory'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetailerInventory'
+        '400':
+          description: Invalid input
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtv    
+    get:
+      tags:
+        - retailer-inventory
+      summary: Get Retailer inventory
+      description: This can only be done by the logged in user.
+      operationId: getRetailerInventory
+      parameters:
+        - name: retailerInventoryId
+          in: path
+          description: id to get
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetailerInventory'
+        '404':
+          description: Not Found
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtvc   
+    delete:
+      tags:
+        - retailer-inventory
+      summary: Delete retailer inventory
+      description: This can only be done by the logged in user.
+      operationId: deleteRetailerInventory
+      parameters:
+        - name: retailerInventoryId
+          in: path
+          description: id to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful operation
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtv      
   /shipment-order:
     post:
       tags:
@@ -292,12 +347,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ShipmentOrder'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/ShipmentOrder'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/ShipmentOrder'
         required: true
       responses:
         '200':
@@ -306,22 +355,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ShipmentOrder'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/ShipmentOrder'
-        '405':
+        '400':
           description: Invalid input
       security:
-        - petstore_auth:
-            - write:pets
-            - read:pets  
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtvc  
   /shipment-order/{shipmentOrderId}:
     get:
       tags:
         - shipment-order
-      summary: Get sale
+      summary: Get Shipment Order
       description: This can only be done by the logged in user.
-      operationId: getShipmentOrderId
+      operationId: getShipmentOrder
       parameters:
         - name: shipmentOrderId
           in: path
@@ -335,14 +381,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ShipmentOrder'          
-            application/xml:
-              schema:
                 $ref: '#/components/schemas/ShipmentOrder'
-  /warehouse-inventory:
+        '404':
+          description: Not Found        
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtvc          
+  /warehouse:
     post:
       tags:
-        - warehouse-inventory
+        - warehouse
       summary: Create a Warehouse
       description: Create a Warehouse
       operationId: createWarehouse
@@ -351,11 +400,114 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/WarehouseInventory'
-          application/xml:
+              $ref: '#/components/schemas/Warehouse'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Warehouse'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Warehouse'
+        '405':
+          description: Invalid input
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtvc  
+  /warehouse/{warehouseId}:
+    put:
+      tags:
+        - warehouse
+      summary: Update warehouse
+      description: This can only be done by the logged in user.
+      operationId: updateWarehouse
+      parameters:
+        - name: warehouseId
+          in: path
+          description: id to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent WarehouseId inventory
+        content:
+          application/json:
             schema:
-              $ref: '#/components/schemas/WarehouseInventory'
-          application/x-www-form-urlencoded:
+              $ref: '#/components/schemas/Warehouse'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Warehouse'
+        '400':
+          description: Invalid input
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtv    
+    get:
+      tags:
+        - warehouse
+      summary: Get warehouse
+      description: This can only be done by the logged in user.
+      operationId: getWarehouse
+      parameters:
+        - name: warehouseId
+          in: path
+          description: id to get
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Warehouse'
+        '404':
+          description: Not Found
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtvc   
+    delete:
+      tags:
+        - warehouse
+      summary: Delete Warehouse
+      description: This can only be done by the logged in user.
+      operationId: deleteWarehouse
+      parameters:
+        - name: warehouseId
+          in: path
+          description: id to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful operation
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtv      
+  /warehouse-inventory:
+    post:
+      tags:
+        - warehouse-inventory
+      summary: Create a Warehouse Inventory
+      description: Create a Warehouse Inventory
+      operationId: createWarehouseInventory
+      requestBody:
+        description: Create a Warehouse Inventory
+        content:
+          application/json:
             schema:
               $ref: '#/components/schemas/WarehouseInventory'
         required: true
@@ -366,16 +518,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WarehouseInventory'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/WarehouseInventory'
-        '405':
+        '400':
           description: Invalid input
       security:
-        - petstore_auth:
-            - write:pets
-            - read:pets  
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtvc  
   /warehouse-inventory/{warehouseInventoryId}:
+    put:
+      tags:
+        - warehouse-inventory
+      summary: Update Warehouse Inventory
+      description: This can only be done by the logged in user.
+      operationId: updateWarehouseInventory
+      parameters:
+        - name: warehouseInventoryId
+          in: path
+          description: id to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent Warehouse Inventory
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WarehouseInventory'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WarehouseInventory'
+        '400':
+          description: Invalid input
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtv    
     get:
       tags:
         - warehouse-inventory
@@ -385,7 +566,7 @@ paths:
       parameters:
         - name: warehouseInventoryId
           in: path
-          description: name that need to be deleted
+          description: id to get
           required: true
           schema:
             type: string
@@ -394,33 +575,47 @@ paths:
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/WarehouseInventory'          
-            application/xml:
               schema:
                 $ref: '#/components/schemas/WarehouseInventory'
-  
-  
-  
-  /pet:
-    put:
+        '404':
+          description: Not Found
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtvc   
+    delete:
       tags:
-        - pet
-      summary: Update an existing pet
-      description: Update an existing pet by Id
-      operationId: updatePet
+        - warehouse-inventory
+      summary: Delete warehouse-inventory
+      description: This can only be done by the logged in user.
+      operationId: deleteWarehouseInventory
+      parameters:
+        - name: warehouseInventoryId
+          in: path
+          description: id to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful operation
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtv      
+  /carrier:
+    post:
+      tags:
+        - carrier
+      summary: Create a Carrier
+      description: Create a Carrier
+      operationId: createCarrier
       requestBody:
-        description: Update an existent pet in the store
+        description: Create a Carrier
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Pet'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Pet'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Pet'
+              $ref: '#/components/schemas/Carrier'
         required: true
       responses:
         '200':
@@ -428,38 +623,105 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: '#/components/schemas/Carrier'          
         '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
-        '405':
-          description: Validation exception
+          description: Invalid input
       security:
-        - petstore_auth:
-            - write:pets
-            - read:pets
-    post:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtvc  
+  /carrier/{carrierId}:
+    put:
       tags:
-        - pet
-      summary: Add a new pet to the store
-      description: Add a new pet to the store
-      operationId: addPet
+        - carrier
+      summary: Update Carrier
+      description: This can only be done by the logged in user.
+      operationId: updateCarrier
+      parameters:
+        - name: carrierId
+          in: path
+          description: id to update
+          required: true
+          schema:
+            type: string
       requestBody:
-        description: Create a new pet in the store
+        description: Update an existent Warehouse Inventory
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Pet'
-          application/xml:
+              $ref: '#/components/schemas/Carrier'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carrier'
+        '400':
+          description: Invalid input
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtv    
+    get:
+      tags:
+        - carrier
+      summary: Get Carrier
+      description: This can only be done by the logged in user.
+      operationId: getCarrier
+      parameters:
+        - name: carrierId
+          in: path
+          description: id to get
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carrier'
+        '404':
+          description: Not Found
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtvc   
+    delete:
+      tags:
+        - carrier
+      summary: Delete Carrier
+      description: This can only be done by the logged in user.
+      operationId: deleteCarrier
+      parameters:
+        - name: carrierId
+          in: path
+          description: id to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful operation
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtv      
+  /supplier:
+    post:
+      tags:
+        - supplier
+      summary: Create a Supplier
+      description: Create a Supplier
+      operationId: createSupplier
+      requestBody:
+        description: Create a Supplier
+        content:
+          application/json:
             schema:
-              $ref: '#/components/schemas/Pet'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Pet'
+              $ref: '#/components/schemas/Supplier'
         required: true
       responses:
         '200':
@@ -467,500 +729,199 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Pet'
-        '405':
+                $ref: '#/components/schemas/Supplier'          
+        '400':
           description: Invalid input
       security:
-        - petstore_auth:
-            - write:pets
-            - read:pets
-  /pet/findByStatus:
-    get:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtvc  
+  /supplier/{supplierId}:
+    put:
       tags:
-        - pet
-      summary: Finds Pets by status
-      description: Multiple status values can be provided with comma separated strings
-      operationId: findPetsByStatus
-      parameters:
-        - name: status
-          in: query
-          description: Status values that need to be considered for filter
-          required: false
-          explode: true
-          schema:
-            type: string
-            default: available
-            enum:
-              - available
-              - pending
-              - sold
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Pet'          
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Pet'
-        '400':
-          description: Invalid status value
-      security:
-        - petstore_auth:
-            - write:pets
-            - read:pets
-  /pet/findByTags:
-    get:
-      tags:
-        - pet
-      summary: Finds Pets by tags
-      description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-      operationId: findPetsByTags
-      parameters:
-        - name: tags
-          in: query
-          description: Tags to filter by
-          required: false
-          explode: true
-          schema:
-            type: array
-            items:
-              type: string
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Pet'          
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Pet'
-        '400':
-          description: Invalid tag value
-      security:
-        - petstore_auth:
-            - write:pets
-            - read:pets
-  /pet/{petId}:
-    get:
-      tags:
-        - pet
-      summary: Find pet by ID
-      description: Returns a single pet
-      operationId: getPetById
-      parameters:
-        - name: petId
-          in: path
-          description: ID of pet to return
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Pet'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Pet'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
-      security:
-        - api_key: []
-        - petstore_auth:
-            - write:pets
-            - read:pets
-    post:
-      tags:
-        - pet
-      summary: Updates a pet in the store with form data
-      description: ''
-      operationId: updatePetWithForm
-      parameters:
-        - name: petId
-          in: path
-          description: ID of pet that needs to be updated
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - name: name
-          in: query
-          description: Name of pet that needs to be updated
-          schema:
-            type: string
-        - name: status
-          in: query
-          description: Status of pet that needs to be updated
-          schema:
-            type: string
-      responses:
-        '405':
-          description: Invalid input
-      security:
-        - petstore_auth:
-            - write:pets
-            - read:pets
-    delete:
-      tags:
-        - pet
-      summary: Deletes a pet
-      description: delete a pet
-      operationId: deletePet
-      parameters:
-        - name: api_key
-          in: header
-          description: ''
-          required: false
-          schema:
-            type: string
-        - name: petId
-          in: path
-          description: Pet id to delete
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '400':
-          description: Invalid pet value
-      security:
-        - petstore_auth:
-            - write:pets
-            - read:pets
-  /pet/{petId}/uploadImage:
-    post:
-      tags:
-        - pet
-      summary: uploads an image
-      description: ''
-      operationId: uploadFile
-      parameters:
-        - name: petId
-          in: path
-          description: ID of pet to update
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - name: additionalMetadata
-          in: query
-          description: Additional Metadata
-          required: false
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/octet-stream:
-            schema:
-              type: string
-              format: binary
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
-      security:
-        - petstore_auth:
-            - write:pets
-            - read:pets
-  /store/inventory:
-    get:
-      tags:
-        - store
-      summary: Returns pet inventories by status
-      description: Returns a map of status codes to quantities
-      operationId: getInventory
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: object
-                additionalProperties:
-                  type: integer
-                  format: int32
-      security:
-        - api_key: []
-  /store/order:
-    post:
-      tags:
-        - store
-      summary: Place an order for a pet
-      description: Place a new order in the store
-      operationId: placeOrder
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Order'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Order'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Order'
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Order'
-        '405':
-          description: Invalid input
-  /store/order/{orderId}:
-    get:
-      tags:
-        - store
-      summary: Find purchase order by ID
-      description: For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions.
-      operationId: getOrderById
-      parameters:
-        - name: orderId
-          in: path
-          description: ID of order that needs to be fetched
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Order'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Order'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Order not found
-    delete:
-      tags:
-        - store
-      summary: Delete purchase order by ID
-      description: For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-      operationId: deleteOrder
-      parameters:
-        - name: orderId
-          in: path
-          description: ID of the order that needs to be deleted
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Order not found
-  /user:
-    post:
-      tags:
-        - user
-      summary: Create user
+        - supplier
+      summary: Update Supplier
       description: This can only be done by the logged in user.
-      operationId: createUser
+      operationId: updateSupplier
+      parameters:
+        - name: supplierId
+          in: path
+          description: id to update
+          required: true
+          schema:
+            type: string
       requestBody:
-        description: Created user object
+        description: Update an existent Supplier
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/User'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/User'
-      responses:
-        default:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/User'
-  /user/createWithList:
-    post:
-      tags:
-        - user
-      summary: Creates list of users with given input array
-      description: Creates list of users with given input array
-      operationId: createUsersWithListInput
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/Supplier'
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/User'
-        default:
-          description: successful operation
-  /user/login:
-    get:
-      tags:
-        - user
-      summary: Logs user into the system
-      description: ''
-      operationId: loginUser
-      parameters:
-        - name: username
-          in: query
-          description: The user name for login
-          required: false
-          schema:
-            type: string
-        - name: password
-          in: query
-          description: The password for login in clear text
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: successful operation
-          headers:
-            X-Rate-Limit:
-              description: calls per hour allowed by the user
-              schema:
-                type: integer
-                format: int32
-            X-Expires-After:
-              description: date in UTC when token expires
-              schema:
-                type: string
-                format: date-time
-          content:
-            application/xml:
-              schema:
-                type: string
-            application/json:
-              schema:
-                type: string
+                $ref: '#/components/schemas/Supplier'
         '400':
-          description: Invalid username/password supplied
-  /user/logout:
+          description: Invalid input
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtv    
     get:
       tags:
-        - user
-      summary: Logs out current logged in user session
-      description: ''
-      operationId: logoutUser
-      parameters: []
-      responses:
-        default:
-          description: successful operation
-  /user/{username}:
-    get:
-      tags:
-        - user
-      summary: Get user by user name
-      description: ''
-      operationId: getUserByName
+        - supplier
+      summary: Get Supplier
+      description: This can only be done by the logged in user.
+      operationId: getSupplier
       parameters:
-        - name: username
+        - name: supplierId
           in: path
-          description: 'The name that needs to be fetched. Use user1 for testing. '
+          description: id to get
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: successful operation
+          description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/User'
-        '400':
-          description: Invalid username supplied
+                $ref: '#/components/schemas/Supplier'
         '404':
-          description: User not found
+          description: Not Found
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtvc   
+    delete:
+      tags:
+        - supplier
+      summary: Delete Supplier
+      description: This can only be done by the logged in user.
+      operationId: deleteSupplier
+      parameters:
+        - name: supplierId
+          in: path
+          description: id to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful operation
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtv      
+  /product:
+    post:
+      tags:
+        - product
+      summary: Create a Product
+      description: Create a Product
+      operationId: createProduct
+      requestBody:
+        description: Create a Product
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'          
+        '400':
+          description: Invalid input
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtvc  
+  /product/{productId}:
     put:
       tags:
-        - user
-      summary: Update user
+        - product
+      summary: Update Product
       description: This can only be done by the logged in user.
-      operationId: updateUser
+      operationId: updateProduct
       parameters:
-        - name: username
+        - name: productId
           in: path
-          description: name that need to be deleted
+          description: id to update
           required: true
           schema:
             type: string
       requestBody:
-        description: Update an existent user in the store
+        description: Update an existent Product
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/User'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/Product'
       responses:
-        default:
-          description: successful operation
-    delete:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Invalid input
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtv    
+    get:
       tags:
-        - user
-      summary: Delete user
+        - product
+      summary: Get Product
       description: This can only be done by the logged in user.
-      operationId: deleteUser
+      operationId: getProduct
       parameters:
-        - name: username
+        - name: productId
           in: path
-          description: The name that needs to be deleted
+          description: id to get
           required: true
           schema:
             type: string
       responses:
-        '400':
-          description: Invalid username supplied
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
         '404':
-          description: User not found
+          description: Not Found
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtvc   
+    delete:
+      tags:
+        - product
+      summary: Delete Product
+      description: This can only be done by the logged in user.
+      operationId: deleteProduct
+      parameters:
+        - name: productId
+          in: path
+          description: id to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful operation
+      security:
+        - retailvaluechain_auth:
+            - write:rtvc
+            - read:rtv      
+
 components:
   schemas:
     Address:
@@ -1105,12 +1066,12 @@ components:
         salesPrice:
           type: number
           format: double
-          example: '10.00'  
+          example: '10.01'  
         salesDate:
           type: string
           description: RFC3339 Datetime to set
           format: date-time
-          example: "2021-06-20T01:02:03+00:00"
+          example: "2022-10-20T12:30:30+00:00"
         items:
           type: array
           items:
@@ -1133,7 +1094,7 @@ components:
         price:
           type: number
           format: double
-          example: '10.00'    
+          example: '10.01'   
     ShipmentOrder:
       type: object
       properties:
@@ -1398,14 +1359,14 @@ components:
             items:
               $ref: '#/components/schemas/User'
   securitySchemes:
-    petstore_auth:
+    retailvaluechain_auth:
       type: oauth2
       flows:
         implicit:
-          authorizationUrl: https://petstore3.swagger.io/oauth/authorize
+          authorizationUrl: https://retailvaluechain.swagger.io/oauth/authorize
           scopes:
-            write:pets: modify pets in your account
-            read:pets: read your pets
+            write:rtvc: modify retail value chain in your account
+            read:rtvc: read your retail value chain
     api_key:
       type: apiKey
       name: api_key
